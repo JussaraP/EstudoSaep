@@ -126,10 +126,10 @@ class lista {
     }   
     public function getItens($lista){
         try{
-            $sql = "select produto.codigo, produto.nome from produto"
-            ."inner join item on item.produto_codigo = produto.codigo"
-            ."inner join lista on lista.codigo = item.lista_codigo"
-            ."where lista.codigo = ?";
+            $sql = "select produto.codigo, produto.nome from produto
+            inner join item on item.produto_codigo = produto.codigo
+            inner join lista on lista.codigo = item.lista_codigo
+            where lista.codigo = ?";
 
             $stmt = Conexao::getConexao()->prepare($sql);
             stmt->bindValue(1,$lista);
