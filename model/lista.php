@@ -128,9 +128,10 @@ class lista {
         try{
             $sql = "select produto.codigo, produto.nome from produto"
             ."inner join item on item.produto_codigo = produto.codigo"
+            ."inner join lista on lista.codigo = item.lista_codigo"
             ."where lista.codigo = ?";
 
-            $stmt = Conexao::getconexao()->prepare($sql);
+            $stmt = Conexao::getConexao()->prepare($sql);
             stmt->bindValue(1,$lista);
 
             $stmt->execute();
@@ -140,6 +141,35 @@ class lista {
 
                 return $result;
             }
+
+            return false;
+
+        } catch(PDOException $ex){
+            return false;
         }
-    }     
+    } 
+    
+    public function getItensUsuario($email){
+        try{
+            $sql = "select produto.codigo, produto.nome, lista.descricao from produto
+            inner join item on item.produto_codigo = produto_codigo
+            inner join lista on lista.codigo = item.lista_codigo
+            inner join usuario on usuario.email = lista.usuario
+            where usuario.email = ?";
+
+            $stmt = Conexao::getConexao()->prepare($sql);
+            stmt->bindValue(1,$email);
+
+            $stmt = execute();
+
+            if($stmt->rowCount()>0){
+                $result = $stmt->fetchALL(PDO::FETCH_BOTH);
+
+                return $result;
+            }
+            return false;
+        } catch(PDOException $ex){
+            return false;
+        }
+    }
 }
